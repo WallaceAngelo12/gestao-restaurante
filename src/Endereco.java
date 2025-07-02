@@ -14,6 +14,7 @@ public class Endereco {
     public Endereco() {
     }
 
+    // Getters e Setters
     public String getLogradouro() {
         return logradouro;
     }
@@ -62,6 +63,7 @@ public class Endereco {
         this.cep = cep;
     }
 
+    // O Scanner será chamado na classe principal
     public void cadastrarEndereco(Scanner input){
 
         System.out.println("Informe o seu CEP:");
