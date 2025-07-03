@@ -2,27 +2,79 @@ package src;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Pedido {
 
-    private String EnderecoEntrega;
-    private Map<String, Integer> itensPedido;
+    private Endereco enderecoEntrega;
+    private String codigoPedido;
+    private int status;
+    private Map<String, ItemPedido> itensPedido;
 
-    public Pedido(String enderecoEntrega, int[] itensPedido) {
-        this.EnderecoEntrega = enderecoEntrega;
+    public Pedido(Endereco enderecoEntrega, String codigoPedido) {
+        this.enderecoEntrega = enderecoEntrega;
+        this.status = 0;
+        this.codigoPedido = codigoPedido;
         this.itensPedido = new HashMap<>();
     }
 
-    public void adicionaItemPedido(String codigoProduto, int quantidade){
-        this.itensPedido.put(codigoProduto, quantidade);
+    public String getCodigoPedido() {
+        return codigoPedido;
+    }
+
+    public void setCodigoPedido(String codigoPedido) {
+        this.codigoPedido = codigoPedido;
+    }
+
+    public Endereco getenderecoEntrega() {
+        return enderecoEntrega;
+    }
+
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+
+    public void adicionaItemPedido(ItemPedido item){
+        itensPedido.put(item.getCodigoProduto(), item);
+    }
+
+    public void listarItens(){
+        if (itensPedido.isEmpty()){
+            System.out.println("Nenhum item no pedido.");
+            return;
+        }
+
+        System.out.println("Itens do pedido:");
+
+        for (ItemPedido item : itensPedido.values()) {
+            System.out.println("Produto: " + item.getCodigoProduto());
+            System.out.println("Quantidade: " + item.getQuantidade());
+            System.out.printf("Preço Unitário: R$ %.2f\n", item.getPrecoProduto());
+            System.out.printf("Subtotal: R$ %.2f\n", item.calcularTotal());
+            System.out.println("=========================");
+        }
     }
 
     public void removerItemPedido(String codigoProduto){
-        this.itensPedido.remove(codigoProduto);
+       itensPedido.remove(codigoProduto);
     }
 
     public int quantidadeItens(){
-        return this.itensPedido.size();
+        return itensPedido.size();
+    }
+
+    public double calcularTotal(){
+        double total = 0;
+        for (ItemPedido item: itensPedido.values()) {
+            total += item.calcularTotal();
+        }
+        return total;
     }
 
 
