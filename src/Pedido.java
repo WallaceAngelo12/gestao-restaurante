@@ -41,7 +41,7 @@ public class Pedido {
 
 
     public void adicionaItemPedido(ItemPedido item){
-        itensPedido.put(item.getCodigoProduto(), item);
+       this.itensPedido.put(CodigoProduto(), item);
     }
 
     public void listarItens(){
