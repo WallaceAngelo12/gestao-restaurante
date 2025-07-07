@@ -2,17 +2,14 @@ package src;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
-public class Pedido {
+public abstract class Pedido {
 
-    private Endereco enderecoEntrega;
     private String codigoPedido;
     private int status;
     private Map<String, ItemPedido> itensPedido;
 
-    public Pedido(Endereco enderecoEntrega, String codigoPedido) {
-        this.enderecoEntrega = enderecoEntrega;
+    public Pedido(String codigoPedido) {
         this.status = 0;
         this.codigoPedido = codigoPedido;
         this.itensPedido = new HashMap<>();
@@ -25,11 +22,6 @@ public class Pedido {
     public void setCodigoPedido(String codigoPedido) {
         this.codigoPedido = codigoPedido;
     }
-
-    public Endereco getenderecoEntrega() {
-        return enderecoEntrega;
-    }
-
 
     public int getStatus() {
         return status;
@@ -65,9 +57,6 @@ public class Pedido {
        itensPedido.remove(codigoProduto);
     }
 
-    public int quantidadeItens(){
-        return itensPedido.size();
-    }
 
     public double calcularTotal(){
         double total = 0;
@@ -77,5 +66,7 @@ public class Pedido {
         return total;
     }
 
+    //cada pedido vai demostrar a localização
+    public abstract String getLocalizacao();
 
 }

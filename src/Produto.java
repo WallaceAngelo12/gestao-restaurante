@@ -1,5 +1,7 @@
 package src;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -9,12 +11,20 @@ public class Produto {
 
     private String codigoProduto;
     private String descricaoProduto;
-    private float Valor;
+    private float valor;
     private LocalDate validade;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public Produto() {
+    public Produto(){
+        this.validade = LocalDate.now();
+    }
+
+    public Produto(String codigoProduto, String descricaoProduto, float valor) {
+        this.codigoProduto = codigoProduto;
+        this.descricaoProduto = descricaoProduto;
+        this.valor = valor;
+        this.validade = LocalDate.now();
     }
 
 
@@ -36,11 +46,11 @@ public class Produto {
     }
 
     public float getValor() {
-        return Valor;
+        return valor;
     }
 
     public void setValor(float valor) {
-        Valor = valor;
+        valor = valor;
     }
 
     public LocalDate getValidade() {
@@ -51,19 +61,18 @@ public class Produto {
         this.validade = validade;
     }
 
-    public void preencherProduto(Scanner input){
+    public void preencherProduto(BufferedReader input) throws IOException {
         System.out.println("Digite o valor do produto: ");
-        this.Valor = input.nextFloat();
+        this.valor = Float.parseFloat(input.readLine());
 
-        input.nextLine(); //Limpar o buffer
 
         System.out.println("Digite a descricao do produto: ");
-        this.descricaoProduto = input.nextLine();
+        this.descricaoProduto = input.readLine();
 
 
         while(true){
             System.out.println("Digite o validade do produto: ");
-            String entradaData = input.nextLine();
+            String entradaData = input.readLine();
             try{
                 this.validade = LocalDate.parse(entradaData, formatter);
                 break;

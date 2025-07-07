@@ -1,6 +1,7 @@
 package src;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 public class Endereco {
 
@@ -64,25 +65,25 @@ public class Endereco {
     }
 
     // O Scanner será chamado na classe principal
-    public void cadastrarEndereco(Scanner input){
+    public void cadastrarEndereco(BufferedReader input) throws IOException {
 
         System.out.println("Informe o seu CEP:");
-        this.cep = input.nextLine();
+        this.cep = input.readLine();
 
         System.out.println("Informe o seu Bairro:");
-        this.bairro = input.nextLine();
+        this.bairro = input.readLine();
 
         System.out.println("Informe o seu Complemento:");
-        this.complemento = input.nextLine();
+        this.complemento = input.readLine();
 
         System.out.println("Informe o seu numero:");
-        this.numero = input.nextLine();
+        this.numero = input.readLine();
 
         System.out.println("Informa o seu Logradouro:");
-        this.logradouro = input.nextLine();
+        this.logradouro = input.readLine();
 
         System.out.println("Informe sua cidade");
-        this.cidade = input.nextLine();
+        this.cidade = input.readLine();
 
     }
 

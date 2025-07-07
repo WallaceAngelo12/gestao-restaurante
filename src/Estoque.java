@@ -1,15 +1,19 @@
 package src;
 
+import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Estoque {
         private Map<String, Produto> produtos = new HashMap<>();
+        private final DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        public void cadastrarProduto(Scanner input){
+        public void cadastrarProduto(BufferedReader input) throws IOException{
             System.out.println("Digite o código do produto: ");
-            String codigo = input.nextLine();
+            String codigo = input.readLine();
 
             if (produtos.containsKey(codigo)){
                 System.out.println("Ja existe um produto cadastrado com esse código! Cadastro cancelado.");
@@ -120,5 +124,51 @@ public class Estoque {
                 default: return "Outros";
 
         }
+
+
+    }
+
+    public void salvarProdutosEmArquivo(String caminhoArquivo){
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(caminhoArquivo))){
+                for (Produto produto : produtos.values()){
+                    String linha = produto.getCodigoProduto() + ";" + produto.getDescricaoProduto() + ";" + produto.getValor() + ";" + produto.getValidade().format(produto.formatter);
+                    writer.write(linha);
+                    writer.newLine();
+                }
+                System.out.println("Produtos salvos com sucesso!");
+            }catch(IOException e){
+                System.out.println("Erro ao salvar protudos: " + e.getMessage());
+            }
+    }
+
+    public void carregarProdutosDoArquivo(String caminhoArquivo){
+            File arquivo = new File(caminhoArquivo);
+
+            if (!arquivo.exists()){
+                System.out.println("Arquivo de produtos não encontrado, inicinado estoque vazio.");
+            try {
+                arquivo.createNewFile();
+        }catch (IOException e){
+                System.out.println("Erro ao carregar arquivo de produtos: " + e.getMessage());
+        }
+            return;
+        }
+            try(BufferedReader reader = new BufferedReader(new FileReader(caminhoArquivo))){
+                String linha;
+                while((linha = reader.readLine()) != null){
+                    String[] partes = linha.split(";");
+                    if(partes.length == 4){
+                        String codigoProduto = partes[0];
+                        String descricaoProduto = partes[1];
+                        float valor = Float.parseFloat(partes[2]);
+                        LocalDate validade = LocalDate.parse(partes[3], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                        Produto produto = new Produto(codigoProduto, descricaoProduto, valor);
+                        produtos.put(codigoProduto, produto);
+                    }
+                }
+                System.out.println("Produtos carregados com sucesso!");
+            }catch (IOException e) {
+                System.out.println("Erro ao carregar produtos: " + e.getMessage());
+            }
     }
 }
