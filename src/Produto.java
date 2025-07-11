@@ -62,8 +62,20 @@ public class Produto {
     }
 
     public void preencherProduto(BufferedReader input) throws IOException {
-        System.out.println("Digite o valor do produto: ");
-        this.valor = Float.parseFloat(input.readLine());
+
+
+        while (true) {
+            System.out.println("Digite o valor do produto: ");
+            String entrada = input.readLine().replace(",",".");
+
+
+            try{
+                this.valor = Float.parseFloat(entrada);
+                break;
+            } catch(NumberFormatException e){
+                System.out.println("Valor inválido! Digite apenas números!");
+            }
+        }
 
 
         System.out.println("Digite a descricao do produto: ");
