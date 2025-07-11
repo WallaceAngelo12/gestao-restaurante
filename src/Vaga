@@ -1,0 +1,42 @@
+
+package src;
+
+
+public class Vaga {
+    
+    private String id;
+    private String tipo; 
+    private boolean ocupada;
+
+   
+    public Vaga(String id, String tipo) {
+        this.id = id;
+        this.tipo = tipo;
+        this.ocupada = false;
+    }
+
+    
+    public String getId() {
+        return id;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+    
+    public boolean Ocupada() {
+        return ocupada;
+    }
+
+    public void ocupar() {
+        this.ocupada = true;
+    }
+
+    public void liberar() {
+        this.ocupada = false;
+    }
+    
+    public String detalhes() {
+        return "\nVaga: " + id + " (" + tipo + ") - " + (ocupada ? "Ocupada" : "Livre");
+    }
+}
