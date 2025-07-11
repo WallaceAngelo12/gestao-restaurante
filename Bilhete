@@ -1,0 +1,51 @@
+
+package src;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+
+public class Bilhete {
+    
+  
+    private Veiculo veiculo;
+    private Vaga vaga;
+    private LocalDateTime entrada;
+    private LocalDateTime saida;
+    private double valorPago;
+
+    //construtor
+    public Bilhete(Veiculo veiculo, Vaga vaga) {
+        this.veiculo = veiculo;
+        this.vaga = vaga;
+        this.entrada = LocalDateTime.now();
+    }
+
+    public void registrarSaida() {
+        this.saida = LocalDateTime.now();
+        Duration duracao = Duration.between(entrada, saida);
+        long minutos = duracao.toMinutes();
+
+        // Exemplo de cálculo: R$1 por 10 minutos
+        this.valorPago = Math.ceil(minutos / 10.0) * 1.0;
+        this.vaga.liberar(); // libera a vaga
+    }
+
+    public String gerarResumo() {
+        return "=== Bilheteq ===\n" +
+               "Placa: " + veiculo.getPlaca() + "\n" +
+               "Modelo: " + veiculo.getModelo() + "\n" +
+               "Vaga: " + vaga.getId() + "\n" +
+               "Entrada: " + entrada + "\n" +
+               (saida != null ? "Saída: " + saida + "\n" : "") +
+               (saida != null ? "Valor pago: R$ " + String.format("%.2f", valorPago) : "");
+    }
+
+    public double getValorPago() {
+        return valorPago;
+    }
+
+    public Vaga getVaga() {
+        return vaga;
+    }
+
+}
